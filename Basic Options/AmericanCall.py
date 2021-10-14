@@ -1,4 +1,4 @@
-# A Program to find the value of an American Put option using the binomial tree method
+# A Program to find the value of an American Call option using the binomial tree method
 
 import finalPricesFinder as fpf
 import math
@@ -6,8 +6,8 @@ import math
 
 def find_values(prices, PExercise):
     for i in range(len(prices)):
-        if prices[i] < PExercise:
-            prices[i] = (prices[i] - PExercise) * -1
+        if prices[i] > PExercise:
+            prices[i] = (prices[i] - PExercise)
         else:
             prices[i] = 0
     return prices
@@ -22,6 +22,7 @@ def find_value(prices, periods, q, R):
     for i in range(periods):
         for j in range(step):
             value = ((q * values[top]) + ((1 - q) * values[top + 1])) * (1 / R)
+            #print(value)
             if prices[top - periods + stepinverse2] < value:
                 values.pop(top - periods + stepinverse2)
                 values.insert(top - periods + stepinverse2, value)
