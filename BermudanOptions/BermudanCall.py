@@ -22,7 +22,6 @@ def find_value(prices, periods, ExerciseOpportunities, q, R):
     for i in range(periods):
         opportunityCheck -= 1
         for j in range(step):
-            print(opportunityCheck in ExerciseOpportunities)
             value = ((q * values[top]) + ((1 - q) * values[top + 1])) * (1 / R)
             if prices[top - periods + stepinverse2] < value or opportunityCheck not in ExerciseOpportunities:
                 values.pop(top - periods + stepinverse2)
@@ -56,7 +55,6 @@ stockPricesSimple = fpf.find_final_price(PStock, u, d, periods)
 stockPrices = fpf.find_all_prices(PStock, u, d, periods)
 optionPayOff = find_values(list.copy(stockPrices), PExercise)
 
-print(stockPricesSimple)
 print(stockPrices)
 print(optionPayOff)
 print(find_value(optionPayOff, periods, ExerciseOpportunities, q, R)[0])

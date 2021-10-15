@@ -15,12 +15,11 @@ def find_values(prices, PExercise):
 def find_exercise_price(prices, periods):
     PExercise = 0
     for i in range(len(prices) - periods - 1):
-        print(prices[i])
         if i == 0:
             PExercise = prices[i]
         elif prices[i] > PExercise:
             PExercise = prices[i]
-    print(PExercise == prices[len(prices) - 2 * periods - 1])
+    #print(PExercise == prices[len(prices) - 2 * periods - 1])
     return PExercise
 
 
