@@ -1,12 +1,12 @@
 import numpy as np
 import math 
 # Initialise parameters
-P0 = 100      # initial stock price
-K = 100       # strike price
+P0 = 45      # initial stock price
+K = 30       # strike price
 TTM = 1       # time to maturity in years
-r = 0.06      # annual risk-free rate
+r = 0.02      # annual risk-free rate
 N = 3         # number of time steps
-v = 0.1650820739 # volatility
+v = 0.2 # volatility
 
 opttype = 'C' # Option Type 'C' or 'P'
 
@@ -26,8 +26,12 @@ def binomial_tree(K,TTM,P0,r,N,v,opttype='C'):
     
     # Matuarity option values - Time step N
     C = np.zeros(N+1)
-    for j in range(0,N+1):
-        C[j] = max(0, S[j]-K)
+    if(opttype=='C'):
+        for j in range(0,N+1):
+                C[j] = max(0, S[j]-K)
+    if(opttype=='P'):
+        for j in range(0,N+1):
+                C[j] = max(0, K-S[j])
         
     # Iterate backwards through the tree
     for i in np.arange(N,0,-1):
