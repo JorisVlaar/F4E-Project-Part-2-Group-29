@@ -1,5 +1,5 @@
 
-def find_final_price(price, u, d, periods):
+def find_final_prices(price, u, d, periods):
     finalPrices = []
     iterPrice = price
     for i in range(periods):
