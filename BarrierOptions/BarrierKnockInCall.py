@@ -135,6 +135,15 @@ def find_paths(periods):
     return previous
 
 
+def find_values(prices, PExercise):
+    for i in range(len(prices)):
+        if prices[i] > PExercise:
+            prices[i] = prices[i] - PExercise
+        else:
+            prices[i] = 0
+    return prices
+
+
 def find_value(prices, periods, q, R):
     step = periods
     values = []
@@ -156,7 +165,7 @@ def find_value(prices, periods, q, R):
 # inputs:
 PStock = 36
 PExercise = 40
-KnockInPrice = 28
+KnockInPrice = 41
 volatility = 0.4
 maturity = 180 / 365
 periodLength = 30 / 365
@@ -175,4 +184,4 @@ print("------------------------")
 prices = some_name(fpf.find_final_prices(PStock, u, d, periods), periods, KnockInPrice, PStock, position)
 print(prices)
 print(position)
-print(find_value(prices, periods, q, R))
+print(find_value(find_values(prices, PExercise), periods, q, R))
