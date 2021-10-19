@@ -1,16 +1,5 @@
 import numpy as np
 import math
-# Initialise parameters
-P0 = 100       # initial stock price
-K = 110        # strike price
-TTM = 1        # time to maturity in years
-r = 0.1        # annual risk-free rate
-N = 21         # number of time steps
-v = 0.25       # volatility
-B = 125        # Up/down and out Barrier
-opttype = 'C'  # Option Type 'C' or 'P'
-bartype = 'U'  # Barrier Type 'U' or 'D' for up or down
-
 
 def binomial_tree_barrier(K, TTM, P0, r, N, B, v, opttype, bartype):
     # Calculate constants
@@ -62,7 +51,18 @@ def binomial_tree_barrier(K, TTM, P0, r, N, B, v, opttype, bartype):
               
     return C[0]                         # Return value at t0
 
+# Initialise parameters
+P0 = 100       # initial stock price
+K = 110        # strike price
+TTM = 1        # time to maturity in years
+r = 0.1        # annual risk-free rate
+N = 21         # number of time steps
+v = 0.25       # volatility
+B = 125        # Up/down and out Barrier
+opttype = 'C'  # Option Type 'C' or 'P'
+bartype = 'U'  # Barrier Type 'U' or 'D' for up or down
 
+# Testing
 print(binomial_tree_barrier(K, TTM, P0, r, 38, B, v, opttype, bartype)) 
 
 # Testing
