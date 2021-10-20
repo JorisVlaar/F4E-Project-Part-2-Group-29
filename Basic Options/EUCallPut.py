@@ -40,4 +40,4 @@ N = 3           # number of time steps
 v = 0.2         # volatility
 opttype = 'C'   # Option Type 'C' or 'P'
 
-print(binomial_tree(K,TTM,P0,r,N,v,opttype='C'))
+print(binomial_tree(K,TTM,P0,r,N,v,opttype))
