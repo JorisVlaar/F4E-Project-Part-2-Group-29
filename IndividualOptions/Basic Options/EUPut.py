@@ -1,6 +1,6 @@
 # A Program to find the value of an EU Put option using the binomial tree method
 
-import finalPricesFinder as fpf
+from Tool import finalPricesFinder as fpf
 import math
 
 
@@ -46,7 +46,7 @@ d = 1 / u
 R = math.exp(interest * periodLength)
 q = (R - d) / (u - d)
 
-stockPrices = fpf.find_final_price(PStock, u, d, periods)
+stockPrices = fpf.find_final_prices(PStock, u, d, periods)
 optionPayOff = find_values(list.copy(stockPrices), PExercise)
 
 print(stockPrices)
