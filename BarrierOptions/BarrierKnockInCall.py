@@ -22,7 +22,7 @@ def some_name(prices, periods, KIPrice, PStock, linePosition):
     if periods % 2 == 0:
         step -= 1
 
-    for i in range(1, 1+ linePosition):
+    for i in range(1, 1 + linePosition):
         if periods % 2 == 0:
             if i % 2 == 0:
                 step -= 1
