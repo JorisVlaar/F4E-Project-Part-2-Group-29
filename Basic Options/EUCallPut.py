@@ -4,18 +4,18 @@ import math
 def binomial_tree(K,TTM,P0,r,N,v,opttype='C'):
     #Calculate constants
     dt = TTM/N
-    u = math.exp(v * math.sqrt(dt))  # up-factor in binomial models
-    d = 1/u                          # ensure recombining tree
+    u = math.exp(v * math.sqrt(dt))     # up-factor in binomial models
+    d = 1/u                             # ensure recombining tree
     q = (np.exp(r*dt) - d) / (u-d)
     disc = np.exp(-r*dt)
 
-    # Matuarity asset prices - Time step N
-    S = np.zeros(N+1)
-    S[0] = P0*d**N
+    # Node asset prices - Time step N
+    S = np.zeros(N+1)                   # Empty array of 0s
+    S[0] = P0*(d**N)
     for j in range(1,N+1):
         S[j] = S[j-1]*u/d
 
-    # Matuarity option values - Time step N
+    # Final Option payoffs
     C = np.zeros(N+1)
     if(opttype=='C'):
         for j in range(0,N+1):
@@ -29,7 +29,7 @@ def binomial_tree(K,TTM,P0,r,N,v,opttype='C'):
         for j in range(0,i):
             C[j] = disc * ( q*C[j+1] + (1-q)*C[j] )
 
-    return C[0]
+    return C[0]                         # Return value at t0
 
 # Initialise parameters
 P0 = 45         # initial stock price
