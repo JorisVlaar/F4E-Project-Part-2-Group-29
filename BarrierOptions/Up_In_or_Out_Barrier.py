@@ -48,7 +48,6 @@ def binomial_tree_barrier(K, TTM, P0, r, N, B, v, opttype, bartype):
                     C[j] = 0
             else:
                   C[j] = disc * (q*C[j+1]+(1-q)*C[j])                   
-              
     return C[0]                         # Return value at t0
 
 # Initialise parameters
