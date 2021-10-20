@@ -13,6 +13,7 @@ def find_values(prices, PExercise, PBarrier):
 
 
 def find_possible():
+    pass
 
 
 def find_value(prices, periods, q, R):
