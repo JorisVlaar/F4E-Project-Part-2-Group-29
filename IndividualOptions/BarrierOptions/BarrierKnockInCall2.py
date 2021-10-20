@@ -1,19 +1,20 @@
 # A Program to find the value of an EU Call option using the binomial tree method
-import finalPricesFinder as fpf
+from Tool.Tool import finalPricesFinder as fpf
 import math
 
 
-def find_values(prices, PExercise):
+def find_values(prices, PExercise, PBarrier):
     for i in range(len(prices)):
-        if prices[i] > PExercise:
-            prices[i] = prices[i] - PExercise
-        else:
+        if i < PExercise:
             prices[i] = 0
+        else:
+            prices[i] = max(0, prices[i] - PExercise)
     return prices
 
-def find_values_2(prices, PExercise):
-    prices[(prices-PExercise) < 0] = 0
-    return prices
+
+def find_possible():
+    pass
+
 
 def find_value(prices, periods, q, R):
     step = periods
@@ -36,6 +37,7 @@ def find_value(prices, periods, q, R):
 # inputs:
 PStock = 36
 PExercise = 40
+KnockInPrice = 41
 volatility = 0.4
 maturity = 90 / 365
 periodLength = 30 / 365
@@ -49,7 +51,7 @@ R = math.exp(interest * periodLength)
 q = (R - d) / (u - d)
 
 stockPrices = fpf.find_final_prices(PStock, u, d, periods)
-optionPayOff = find_values(list.copy(stockPrices), PExercise)
+optionPayOff = find_values(list.copy(stockPrices), PExercise, KnockInPrice)
 
 print(stockPrices)
 print(optionPayOff)

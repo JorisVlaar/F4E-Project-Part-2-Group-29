@@ -1,5 +1,5 @@
-# A Program to find the value of an Asian Call option using the binomial tree method
-import finalPricesFinder as fpf
+# A Program to find the value of an Lookback Call option using the binomial tree method
+from Tool import finalPricesFinder as fpf
 import math
 
 
@@ -12,11 +12,15 @@ def find_values(prices, PExercise):
     return prices
 
 
-def find_exercise_price(prices):
+def find_exercise_price(prices, periods):
     PExercise = 0
-    for i in range(len(prices)):
-        PExercise += prices[i]
-    return PExercise / len(prices)
+    for i in range(len(prices) - periods - 1):
+        if i == 0:
+            PExercise = prices[i]
+        elif prices[i] < PExercise:
+            PExercise = prices[i]
+    #PExercise == prices[len(prices) - periods - 2]
+    return PExercise
 
 
 def find_value(prices, periods, q, R):
@@ -53,7 +57,7 @@ q = (R - d) / (u - d)
 
 stockPrices = fpf.find_all_prices(PStock, u, d, periods)
 
-PExercise = find_exercise_price(stockPrices)
+PExercise = find_exercise_price(stockPrices, periods)
 print(PExercise)
 
 optionPayOff = find_values(list.copy(stockPrices), PExercise)

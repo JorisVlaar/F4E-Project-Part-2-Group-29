@@ -1,6 +1,6 @@
 # A Program to find the value of an Chooser option using the binomial tree method
 
-import finalPricesFinder as fpf
+from Tool import finalPricesFinder as fpf
 import math
 
 
@@ -54,12 +54,12 @@ def find_value(prices, periods, decision, q, R):
 
 
 # inputs:
-PStock = 55
-PExercise = 60
-volatility = 0.25
-maturity = 3 / 12
-periodLength = 1 / 12
-interest = 0.03
+PStock = 36
+PExercise = 40
+volatility = 0.4
+maturity = 90 / 365
+periodLength = 30 / 365
+interest = 0.1
 decisionPeriod = 2
 
 # computed values:

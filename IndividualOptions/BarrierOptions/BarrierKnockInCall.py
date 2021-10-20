@@ -1,5 +1,5 @@
-# A Program to find the value of a Barrier Knock-In Put option using the binomial tree method
-import finalPricesFinder as fpf
+# A Program to find the value of a Barrier Knock-In Call option using the binomial tree method
+from Tool.Tool import finalPricesFinder as fpf
 import math
 
 
@@ -22,7 +22,7 @@ def some_name(prices, periods, KIPrice, PStock, linePosition):
     if periods % 2 == 0:
         step -= 1
 
-    for i in range(1, 1+ linePosition):
+    for i in range(1, 1 + linePosition):
         if periods % 2 == 0:
             if i % 2 == 0:
                 step -= 1
@@ -137,8 +137,8 @@ def find_paths(periods):
 
 def find_values(prices, PExercise):
     for i in range(len(prices)):
-        if prices[i] < PExercise:
-            prices[i] = (prices[i] - PExercise) * -1
+        if prices[i] > PExercise:
+            prices[i] = prices[i] - PExercise
         else:
             prices[i] = 0
     return prices

@@ -1,6 +1,6 @@
 # A Program to find the value of an EU Put option using the binomial tree method
 
-import finalPricesFinder as fpf
+from Tool import finalPricesFinder as fpf
 import math
 
 

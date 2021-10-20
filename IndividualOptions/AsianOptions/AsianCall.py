@@ -1,13 +1,12 @@
-# A Program to find the value of an Asian Put option using the binomial tree method
-
-import finalPricesFinder as fpf
+# A Program to find the value of an Asian Call option using the binomial tree method
+from Tool import finalPricesFinder as fpf
 import math
 
 
 def find_values(prices, PExercise):
     for i in range(len(prices)):
-        if prices[i] < PExercise:
-            prices[i] = (prices[i] - PExercise) * -1
+        if prices[i] > PExercise:
+            prices[i] = prices[i] - PExercise
         else:
             prices[i] = 0
     return prices
