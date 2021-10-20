@@ -11,6 +11,9 @@ def find_values(prices, PExercise):
             prices[i] = 0
     return prices
 
+def find_values_2(prices, PExercise):
+    prices[(prices-PExercise) < 0] = 0
+    return prices
 
 def find_value(prices, periods, q, R):
     step = periods
