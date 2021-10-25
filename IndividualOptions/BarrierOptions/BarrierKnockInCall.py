@@ -1,5 +1,5 @@
 # A Program to find the value of a Barrier Knock-In Call option using the binomial tree method
-from Tool.Tool import finalPricesFinder as fpf
+from Tool import finalPricesFinder as fpf
 import math
 
 
