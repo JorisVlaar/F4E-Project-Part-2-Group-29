@@ -15,11 +15,13 @@ K = 110              # strike
 r = 0.05             # annual interest rate
 v = 0.25             # volatility
 dt = 30/365          # timeperiod
-N = 60000            # number of simulations
-n = 3               # number of steps
+N = 6            # number of simulations
+n = 3                # number of steps
 TTM = 90/365         # time to maturity
-OptionType = "Lookback"
-CallPut = "Call"
+KnockInPrice = 115   # Barrier
+
+OptionType = "Barrier"
+CallPut = "Knock-In-Call"
 
 paths = simulation_path(P0, r, v, dt, N)
 
@@ -60,12 +62,14 @@ elif OptionType == "LookBack":
         payoffs = np.maximum(K-min_, 0)
 elif OptionType == "Barrier":
     if CallPut == "Knock-In-Call":
-        maxs = np.amax(paths, axis=2)
-        for cnt in len(paths):
+        maxs = np.amax(paths, axis=1)
+        print(paths)
+        for cnt in paths:
             if max(cnt) <= KnockInPrice:
                 paths[cnt, :] = np.zeros(1, len(paths[0]))
             else:
                 None
+        print(paths)
     pass
 
 
