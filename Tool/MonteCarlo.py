@@ -59,6 +59,13 @@ elif OptionType == "LookBack":
         min_ = np.min(paths, axis=0)
         payoffs = np.maximum(K-min_, 0)
 elif OptionType == "Barrier":
+    if CallPut == "Knock-In-Call":
+        maxs = np.amax(paths, axis=2)
+        for cnt in len(paths):
+            if max(cnt) <= KnockInPrice:
+                paths[cnt, :] = np.zeros(1, len(paths[0]))
+            else:
+                None
     pass
 
 
