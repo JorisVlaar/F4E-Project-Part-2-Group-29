@@ -1,5 +1,5 @@
 # A Program to find the value of an Barrier option using the binomial tree method
-from Tool import finalPricesFinder as fpf
+from Tool import findStockPrices as fsp
 import math
 
 
@@ -15,7 +15,7 @@ def find_values(prices, PExercise, option):
 
 def check(prices, PBarrier, linePosition, period, type):
     lines = find_lines(period, linePosition)
-    stock = fpf.find_final_prices(PStock, u, d, period)
+    stock = fsp.find_final_prices(PStock, u, d, period)
     print("lines: " + str(lines))
     print(period)
     if type == "Down":
@@ -109,7 +109,7 @@ q = (R - d) / (u - d)
 
 line = find_line_position(PBarrier, PStock, u, d)
 print(line)
-StockPrices = fpf.find_final_prices(PStock, u, d, periods)
+StockPrices = fsp.find_final_prices(PStock, u, d, periods)
 print(StockPrices)
 values = find_values(StockPrices, PExercise, opttype)
 print(values)
