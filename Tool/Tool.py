@@ -24,6 +24,7 @@ q = (R - d) / (u - d)
 OptionType = "LookBack"
 CallPut = "Put"
 decisionPeriod = 2
+ExerciseOpportunities = []
 
 OptionPrice = None
 
@@ -60,11 +61,11 @@ elif OptionType == "Bermudan":
     if CallPut == "Call":
         StockPrices = FPF.find_all_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
-        OptionPrice = BT.Bermudan_tree(MaturityValues, periods, q, R)
+        OptionPrice = BT.Bermudan_tree(MaturityValues, periods, ExerciseOpportunities, q, R)
     elif CallPut == "Put":
         StockPrices = FPF.find_all_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_put(StockPrices, PExercise)
-        OptionPrice = BT.Bermudan_tree(MaturityValues, periods, q, R)
+        OptionPrice = BT.Bermudan_tree(MaturityValues, periods, ExerciseOpportunities, q, R)
 elif OptionType == "Chooser":
     StockPrices = FPF.find_final_prices(PStock, u, d, periods)
     optionPayOffCall = FV.find_values_call(list.copy(StockPrices), PExercise)
