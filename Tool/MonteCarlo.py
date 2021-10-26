@@ -18,7 +18,7 @@ dt = 30/365          # timeperiod
 N = 6                # number of simulations
 n = 3                # number of steps
 TTM = 90/365         # time to maturity
-KnockInPrice = 105   # Barrier
+KnockPrice = 105   # Barrier
 
 OptionType = "Barrier"
 CallPut = "Knock-In-Call"
@@ -61,21 +61,36 @@ elif OptionType == "LookBack":
         min_ = np.min(paths, axis=0)
         payoffs = np.maximum(K-min_, 0)
 elif OptionType == "Barrier":
-    if CallPut == "Knock-In-Call":
+    if "Knock-In" in CallPut: 
         maxs = np.amax(paths, axis=0)
         paths = np.transpose(paths)
         for cnt in paths:
-            if max(cnt) <= KnockInPrice:
+            if max(cnt) <= KnockPrice:
                 i = 0
                 for num in cnt:
-
                     cnt[i] = 0
                     i += 1
-
             else:
                 None
-        print(paths)
-
+        if "Call" in CallPut:
+            payoffs = np.maximum(paths[:, n]-K, 0)
+        elif "Put" in CallPut:
+            payoffs = np.maximum(K-paths[:, n], 0)
+    elif "Knock-Out" in CallPut:
+        mins = np.amin(paths, axis=0)
+        paths = np.transpose(paths)
+        for cnt in paths:
+            if min(cnt) => KnockPrice:
+                i = 0
+                for num in cnt
+                    cnt[i] = 0
+                    i += 1
+            else:
+                None
+        if "Call" in CallPut:
+            payoffs = np.maximum(paths[:, n]-K, 0)
+        elif "Put" in CallPut:
+            payoffs = np.maximum(K-paths[:, n], 0)
     pass
 
 
