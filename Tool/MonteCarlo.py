@@ -2,7 +2,8 @@ import numpy as np
 # import matplotlib.pyplot as plt
 
 
-def simulation_path(P0, r, v, dt, N):
+def simulation_path(P0, r, v, n, N, TTM):
+    dt = TTM/n
     Pt = np.log(P0) + np.cumsum(((r - ((v**2)/2))*dt +
                                  v*np.sqrt(dt) * np.random.normal(size=(n, N))), axis=0)
     Pt = np.round_(Pt, decimals=2)
@@ -14,16 +15,15 @@ P0 = 100             # initial stock price
 K = 110              # strike
 r = 0.05             # annual interest rate
 v = 0.25             # volatility
-dt = 30/365          # timeperiod
 N = 6                # number of simulations
 n = 3                # number of steps
-TTM = 90/365         # time to maturity
-KnockPrice = 105   # Barrier
+TTM = 1              # time to maturity
+KnockPrice = 105     # Barrier
 
 OptionType = "Barrier"
-CallPut = "Knock-In-Call"
+CallPut = "Knock-In-Call-Down"
 
-paths = simulation_path(P0, r, v, dt, N)
+paths = simulation_path(P0, r, v, n, N, TTM)
 
 if OptionType == "EU":
     if CallPut == "Call":
@@ -61,42 +61,63 @@ elif OptionType == "LookBack":
         min_ = np.min(paths, axis=0)
         payoffs = np.maximum(K-min_, 0)
 elif OptionType == "Barrier":
-    if "Knock-In" in CallPut: 
+    if "Knock-In" in CallPut:
         maxs = np.amax(paths, axis=0)
         paths = np.transpose(paths)
         for cnt in paths:
-            if max(cnt) <= KnockPrice:
-                i = 0
-                for num in cnt:
-                    cnt[i] = 0
-                    i += 1
-            else:
-                None
-        if "Call" in CallPut:
-            payoffs = np.maximum(paths[:, n]-K, 0)
-        elif "Put" in CallPut:
-            payoffs = np.maximum(K-paths[:, n], 0)
+            if "Up" in CallPut:
+                if max(cnt) <= KnockPrice:
+                    i = 0
+                    for num in cnt:
+                        cnt[i] = 0
+                        i += 1
+                else:
+                    None
+            if "Down" in CallPut:
+                if min(cnt) >= KnockPrice:
+                    i = 0
+                    for num in cnt:
+                        cnt[i] = 0
+                        i += 1
+                    #print(paths)
+                else:
+                    None
+       
     elif "Knock-Out" in CallPut:
         mins = np.amin(paths, axis=0)
         paths = np.transpose(paths)
         for cnt in paths:
-            if min(cnt) => KnockPrice:
-                i = 0
-                for num in cnt
-                    cnt[i] = 0
-                    i += 1
-            else:
-                None
-        if "Call" in CallPut:
-            payoffs = np.maximum(paths[:, n]-K, 0)
-        elif "Put" in CallPut:
-            payoffs = np.maximum(K-paths[:, n], 0)
-    pass
+            if "Down" in CallPut:
+                if min(cnt) <= KnockPrice:
+                    i = 0
+                    for num in cnt:
+                        cnt[i] = 0
+                        i += 1
+                else:
+                    None
+            if "Up" in CallPut:
+                if max(cnt) >= KnockPrice:
+                    i = 0
+                    for num in cnt:
+                        cnt[i] = 0
+                        i += 1
+                else:
+                    None
+        
+    paths = np.transpose(paths)
+    print(paths)
+    if "Call" in CallPut:
+        payoffs = np.maximum(paths[-1]-K, 0)
+    elif "Put" in CallPut:
+        payoffs = np.maximum(K-paths[-1], 0)
+    
+else:
+    None
 
 
 # discounting back to present value
-#option_price = np.mean(payoffs)*np.exp(-r*TTM)
-# print(option_price)
+option_price = np.mean(payoffs)*np.exp(-r*TTM)
+print(option_price)
 
 
 # plt.plot(paths)
