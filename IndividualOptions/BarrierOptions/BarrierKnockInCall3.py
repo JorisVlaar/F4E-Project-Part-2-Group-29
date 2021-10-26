@@ -1,5 +1,5 @@
 
-from Tool import finalPricesFinder as fpf
+from Tool import findOptionPayoff as fop
 import math
 
 def find_values(prices, PExercise, option):
@@ -122,9 +122,9 @@ while periods <= 80:
     d = 1 / u
     R = math.exp(interest * periodLength)
     q = (R - d) / (u - d)
-    stockPrices = fpf.find_all_prices(PStock, u, d, periods)
+    stockPrices = fop.find_all_prices(PStock, u, d, periods)
     #print(stockPrices)
-    optionPayOff = find_values(fpf.find_final_prices(PStock, u, d, periods), PExercise, opttype)
+    optionPayOff = find_values(fop.find_final_prices(PStock, u, d, periods), PExercise, opttype)
     #print(optionPayOff)
     index = len(stockPrices) - (2 * periods) - 1
     print(find_value(optionPayOff, periods, q, R, bartype, stockPrices, index, PBarrier, u, d))

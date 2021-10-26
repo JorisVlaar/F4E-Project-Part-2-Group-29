@@ -1,6 +1,6 @@
 # A Program to find the value of an Chooser option using the binomial tree method
 
-from Tool import finalPricesFinder as fpf
+from Tool import findOptionPayoff as fop
 import math
 
 
@@ -75,7 +75,7 @@ d = 0.9304
 q = 0.4993
 print(find_value([4.1280, 4.8504, 12.2398], decisionPeriod, 0, q, R)[0])
 
-stockPrices = fpf.find_final_prices(PStock, u, d, periods)
+stockPrices = fop.find_final_prices(PStock, u, d, periods)
 optionPayOffCall = find_values_call(list.copy(stockPrices), PExercise)
 optionPayOffPut = find_values_put(list.copy(stockPrices), PExercise)
 
