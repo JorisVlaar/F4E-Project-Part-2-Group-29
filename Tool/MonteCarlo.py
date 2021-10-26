@@ -82,12 +82,7 @@ elif OptionType == "Barrier":
                     #print(paths)
                 else:
                     None
-        if "Call" in CallPut:
-            #print(paths)
-            payoffs = np.maximum(paths[:, n-1]-K, 0)
-            #print(payoffs)
-        elif "Put" in CallPut:
-            payoffs = np.maximum(K-paths[:, n-1], 0)
+       
     elif "Knock-Out" in CallPut:
         mins = np.amin(paths, axis=0)
         paths = np.transpose(paths)
@@ -108,11 +103,16 @@ elif OptionType == "Barrier":
                         i += 1
                 else:
                     None
-        if "Call" in CallPut:
-            payoffs = np.maximum(paths[:, n]-K, 0)
-        elif "Put" in CallPut:
-            payoffs = np.maximum(K-paths[:, n], 0)
-    pass
+        
+    paths = np.transpose(paths)
+    print(paths)
+    if "Call" in CallPut:
+        payoffs = np.maximum(paths[-1]-K, 0)
+    elif "Put" in CallPut:
+        payoffs = np.maximum(K-paths[-1], 0)
+    
+else:
+    None
 
 
 # discounting back to present value
