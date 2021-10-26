@@ -1,5 +1,5 @@
 # A Program to find the value of a Barrier Knock-In Put option using the binomial tree method
-from Tool.Tool import finalPricesFinder as fpf
+from Tool import findStockPrices as fsp
 import math
 
 
@@ -178,10 +178,10 @@ d = 1 / u
 R = math.exp(interest * periodLength)
 q = (R - d) / (u - d)
 
-print(fpf.find_all_prices(PStock, u, d, periods))
+print(fsp.find_all_prices(PStock, u, d, periods))
 position = find_line_position(KnockInPrice, PStock, u, d)
 print("------------------------")
-prices = some_name(fpf.find_final_prices(PStock, u, d, periods), periods, KnockInPrice, PStock, position)
+prices = some_name(fsp.find_final_prices(PStock, u, d, periods), periods, KnockInPrice, PStock, position)
 print(prices)
 print(position)
 print(find_value(find_values(prices, PExercise), periods, q, R))
