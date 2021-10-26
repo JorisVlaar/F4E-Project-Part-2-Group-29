@@ -1,5 +1,5 @@
 # A Program to find the value of an Lookback Call option using the binomial tree method
-from Tool import findOptionPayoff as fop
+from Tool import finalPricesFinder as fpf
 import math
 
 
@@ -55,7 +55,7 @@ d = 1 / u
 R = math.exp(interest * periodLength)
 q = (R - d) / (u - d)
 
-stockPrices = fop.find_all_prices(PStock, u, d, periods)
+stockPrices = fpf.find_all_prices(PStock, u, d, periods)
 
 PExercise = find_exercise_price(stockPrices, periods)
 print(PExercise)

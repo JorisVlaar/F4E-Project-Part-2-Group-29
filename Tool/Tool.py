@@ -1,9 +1,9 @@
 
 import math
 import BionomialTree as BT, \
-    findOptionPayoff as FPF, \
-    findStockPrices as FV, \
-    optionSpecificFunctions as F
+    finalPricesFinder as FPF, \
+    findValues as FV, \
+    SpecificFunctions as F
 
 # basic inputs:
 PStock = 36
