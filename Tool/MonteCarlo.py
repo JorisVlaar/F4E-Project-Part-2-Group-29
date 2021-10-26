@@ -15,10 +15,10 @@ K = 110              # strike
 r = 0.05             # annual interest rate
 v = 0.25             # volatility
 dt = 30/365          # timeperiod
-N = 6            # number of simulations
+N = 6                # number of simulations
 n = 3                # number of steps
 TTM = 90/365         # time to maturity
-KnockInPrice = 115   # Barrier
+KnockInPrice = 105   # Barrier
 
 OptionType = "Barrier"
 CallPut = "Knock-In-Call"
@@ -63,19 +63,25 @@ elif OptionType == "LookBack":
 elif OptionType == "Barrier":
     if CallPut == "Knock-In-Call":
         maxs = np.amax(paths, axis=0)
-        print(paths)
+        paths = np.transpose(paths)
         for cnt in paths:
             if max(cnt) <= KnockInPrice:
-                paths[:, cnt] = np.zeros(len(paths), 1)
+                i = 0
+                for num in cnt:
+
+                    cnt[i] = 0
+                    i += 1
+
             else:
                 None
         print(paths)
+
     pass
 
 
 # discounting back to present value
-option_price = np.mean(payoffs)*np.exp(-r*TTM)
-print(option_price)
+#option_price = np.mean(payoffs)*np.exp(-r*TTM)
+# print(option_price)
 
 
 # plt.plot(paths)
