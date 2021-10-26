@@ -80,9 +80,9 @@ elif OptionType == "Barrier":
         mins = np.amin(paths, axis=0)
         paths = np.transpose(paths)
         for cnt in paths:
-            if min(cnt) => KnockPrice:
+            if min(cnt) >= KnockPrice:
                 i = 0
-                for num in cnt
+                for num in cnt:
                     cnt[i] = 0
                     i += 1
             else:
