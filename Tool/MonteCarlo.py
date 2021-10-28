@@ -1,28 +1,32 @@
 import numpy as np
-
-# import matplotlib.pyplot as plt
+import array
+import matplotlib.pyplot as plt
 
 # Standard inputs
-# P0 = 100             # initial stock price
-# K = 110              # strike
-# r = 0.05             # annual interest rate
-# v = 0.25             # volatility
-# TTM = 1              # time to maturity
-# Barrier = 105        # Barrier
-N = 60000  # number of simulations
-n = 250  # number of steps
+P0 = 100             # initial stock price
+K = 110              # strike
+r = 0.05             # annual interest rate
+v = 0.25             # volatility
+TTM = 1              # time to maturity
+Barrier = 105        # Barrier
+N = 30  # number of simulations
+n = 500 # number of steps
+OptionType = "BARRIER"
+CallPut = "CALL"
+InOut = "IN"
+UpDown = "UP"
 
-P0 = int(input("Enter initial stock price: "))
-K = int(input("Enter strike price: "))
-r = float(input("Enter the annual interest rate as a fraction: "))
-v = float(input("Enter the volatility as a fraction: "))
-TTM = float(input("Enter the Time to Maturity in years: "))
-Barrier = int(input("Enter the Barrier level: "))
-OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER): ").upper()
-if "BARRIER" in OptionType:
-    InOut = input("Enter the barrier type (choose from IN, OUT): ").upper()
-    UpDown = input("Enter the barrier type (choose from UP, DOWN): ").upper()
-CallPut = input("Choose between: CALL, PUT ").upper()
+# P0 = int(input("Enter initial stock price: "))
+# K = int(input("Enter strike price: "))
+# r = float(input("Enter the annual interest rate as a fraction: "))
+# v = float(input("Enter the volatility as a fraction: "))
+# TTM = float(input("Enter the Time to Maturity in years: "))
+# Barrier = int(input("Enter the Barrier level: "))
+# OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER): ").upper()
+# if "BARRIER" in OptionType:
+#     InOut = input("Enter the barrier type (choose from IN, OUT): ").upper()
+#     UpDown = input("Enter the barrier type (choose from UP, DOWN): ").upper()
+# CallPut = input("Choose between: CALL, PUT ").upper()
 
 
 def simulation_path(P0, r, v, n, N, TTM):
@@ -115,7 +119,7 @@ def monteCarloTool():
                         None
 
         paths = np.transpose(paths)
-        print(paths)
+        #print(paths)
         if "CALL" in CallPut:
             payoffs = np.maximum(paths[-1] - K, 0)
         elif "PUT" in CallPut:
@@ -128,10 +132,20 @@ def monteCarloTool():
     option_price = np.mean(payoffs) * np.exp(-r * TTM)
     print(option_price)
 
+    S = np.ones(N)*100
+    print(S)
+    print(paths)
+    #S = np.transpose(S)
+    #paths = np.insert(paths, 0,S*100)
+
+    plt.plot(paths)
+    plt.xlabel("Time Increments")
+    plt.ylabel("Stock Price")
+    plt.title("Geometric Brownian Motion")
+    plt.xlim(0, n-1)       # set the xlim to left, right
+    plt.show()              # Might take a while :)
+
 
 monteCarloTool()
 
-# plt.plot(paths)
-# plt.xlabel("Time Increments")
-# plt.ylabel("Stock Price")
-# plt.title("Geometric Brownian Motion")
+

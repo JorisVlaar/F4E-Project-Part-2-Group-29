@@ -50,7 +50,7 @@ def binomial_tree_barrier(K, TTM, P0, r, N, B, v, opttype, bartype):
                   C[j] = disc * (q*C[j+1]+(1-q)*C[j])
     return C[0]                         # Return value at t0
 
-def binomial_tree(K,TTM,P0,r,N,v,opttype='C'):
+def binomial_tree(K,TTM,P0,r,N,v,opttype):
     #Calculate constants
     dt = TTM/N
     u = math.exp(v * math.sqrt(dt))     # up-factor in binomial models
@@ -96,9 +96,9 @@ r = 0.1        # annual risk-free rate
 N = 21         # number of time steps
 v = 0.25       # volatility
 B = 125        # Up/down and out Barrier
-opttype = 'C'  # Option Type 'C' or 'P'
+opttype = 'P'  # Option Type 'C' or 'P'
 bartype = 'U'  # Barrier Type 'U' or 'D' for up or down
-bart = 'I'     # Barrier Type 'I' for knock-in 'O' for Knock-out
+bart = 'I'      # Barrier Type 'I' for knock-in 'O' for Knock-out
 
 # Testing
 print(calculation(K, TTM, P0, r, 38, B, v, opttype, bartype, bart))
