@@ -9,8 +9,8 @@ r = 0.05             # annual interest rate
 v = 0.25             # volatility
 TTM = 1              # time to maturity
 Barrier = 105        # Barrier
-N = 30  # number of simulations
-n = 500 # number of steps
+N = 60000  # number of simulations
+n = 270 # number of steps
 OptionType = "BARRIER"
 CallPut = "CALL"
 InOut = "IN"
@@ -131,12 +131,11 @@ def monteCarloTool():
     # discounting back to present value
     option_price = np.mean(payoffs) * np.exp(-r * TTM)
     print(option_price)
+    P = [1,N]
+    P = np.ones(P)*100
 
-    S = np.ones(N)*100
-    print(S)
-    print(paths)
-    #S = np.transpose(S)
-    #paths = np.insert(paths, 0,S*100)
+
+    paths = np.insert(paths, 0 , P, axis=0)
 
     plt.plot(paths)
     plt.xlabel("Time Increments")

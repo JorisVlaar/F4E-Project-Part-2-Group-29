@@ -7,11 +7,11 @@ import BionomialTree as BT, \
     BarrierOptions as B
 
 # basic inputs:
-PStock = 36
-PExercise = 40
+PStock = 38
+PExercise = 38
 volatility = 0.4
-maturity = 90 / 365
-periodLength = 30 / 365
+maturity = 365 / 365
+periodLength = 18.25 / 365
 interest = 0.1
 
 # computed values:
@@ -22,13 +22,13 @@ R = math.exp(interest * periodLength)
 q = (R - d) / (u - d)
 
 # Specific input
-OptionType = "LookBack"
-CallPut = "Put"
+OptionType = "Barrier"
+CallPut = "Call"
 decisionPeriod = 2
 ExerciseOpportunities = []
 UpDown = 'Up'
 InOut = 'In'
-Barrier = 130
+Barrier = 35
 
 OptionPrice = None
 
