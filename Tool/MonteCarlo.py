@@ -1,124 +1,135 @@
 import numpy as np
+
 # import matplotlib.pyplot as plt
+
+# Standard inputs
+# P0 = 100             # initial stock price
+# K = 110              # strike
+# r = 0.05             # annual interest rate
+# v = 0.25             # volatility
+# TTM = 1              # time to maturity
+# Barrier = 105        # Barrier
+N = 60000  # number of simulations
+n = 250  # number of steps
+
+P0 = input("Enter initial stock price: ")
+K = input("Enter strike price: ")
+r = input("Enter the annual interest rate as a fraction: ")
+v = input("Enter the volatility as a fraction: ")
+TTM = input("Enter the Time to Maturity in years:")
+Barrier = input("Enter the Barrier level:")
+OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER):").upper()
+if "BARRIER" in OptionType:
+    InOut = input("Enter the barrier type (choose from IN, OUT):").upper()
+    UpDown = input("Enter the barrier type (choose from UP, DOWN):").upper()
+CallPut = input("Choose between: CALL, PUT").upper()
 
 
 def simulation_path(P0, r, v, n, N, TTM):
-    dt = TTM/n
-    Pt = np.log(P0) + np.cumsum(((r - ((v**2)/2))*dt +
-                                 v*np.sqrt(dt) * np.random.normal(size=(n, N))), axis=0)
+    dt = TTM / n
+    Pt = np.log(P0) + np.cumsum(((r - ((v ** 2) / 2)) * dt +
+                                 v * np.sqrt(dt) * np.random.normal(size=(n, N))), axis=0)
     Pt = np.round_(Pt, decimals=2)
     return np.exp(Pt)
 
 
-# inputs
-P0 = 100             # initial stock price
-K = 110              # strike
-r = 0.05             # annual interest rate
-v = 0.25             # volatility
-N = 6                # number of simulations
-n = 3                # number of steps
-TTM = 1              # time to maturity
-KnockPrice = 105     # Barrier
+def monteCarloTool():
+    paths = simulation_path(P0, r, v, n, N, TTM)
+    if "EU" in OptionType:
+        if "CALL" in CallPut:
+            payoffs = np.maximum(paths[-1] - K, 0)
+        elif "PUT" in CallPut:
+            payoffs = np.maximum(K - paths[-1], 0)
+    elif "US" in OptionType:
+        if "CALL" in CallPut:
+            None
+        elif "PUT" in CallPut:
+            None
+    elif "ASIAN" in OptionType:
+        avg_ = np.average(paths, axis=0)
+        #     if CallPut == "Call":
+        #         payoffs = np.max(avg_-K, 0)
+        #     elif CallPut == "Put":
+        #         payoffs = np.max(K-avg_, 0)
+        if "CALL" in CallPut:
+            payoffs = np.maximum(paths[-1] - avg_, 0)
+        elif "PUT" in CallPut:
+            payoffs = np.maximum(avg_ - paths[-1], 0)
 
-OptionType = "Barrier"
-CallPut = "Knock-In-Call-Down"
+    elif "BERMUDAN" in OptionType:
+        if "CALL" in CallPut:
+            None
+        elif "PUT" in CallPut:
+            None
+    elif "CHOOSER" in OptionType:
+        None
+    elif "LOOKBACK" in OptionType:
+        if "CALL" in CallPut:
+            max_ = np.max(paths, axis=0)
+            payoffs = np.maximum(max_ - K, 0)
+        elif "PUT" in CallPut:
+            min_ = np.min(paths, axis=0)
+            payoffs = np.maximum(K - min_, 0)
+    elif "BARRIER" in OptionType:
+        if "IN" in InOut:
+            maxs = np.amax(paths, axis=0)
+            paths = np.transpose(paths)
+            for cnt in paths:
+                if "UP" in UpDown:
+                    if max(cnt) <= Barrier:
+                        i = 0
+                        for num in cnt:
+                            cnt[i] = 0
+                            i += 1
+                    else:
+                        None
+                if "DOWN" in UpDown:
+                    if min(cnt) >= Barrier:
+                        i = 0
+                        for num in cnt:
+                            cnt[i] = 0
+                            i += 1
+                        # print(paths)
+                    else:
+                        None
 
-paths = simulation_path(P0, r, v, n, N, TTM)
+        elif "OUT" in InOut:
+            mins = np.amin(paths, axis=0)
+            paths = np.transpose(paths)
+            for cnt in paths:
+                if "DOWN" in UpDown:
+                    if min(cnt) <= Barrier:
+                        i = 0
+                        for num in cnt:
+                            cnt[i] = 0
+                            i += 1
+                    else:
+                        None
+                if "UP" in UpDown:
+                    if max(cnt) >= Barrier:
+                        i = 0
+                        for num in cnt:
+                            cnt[i] = 0
+                            i += 1
+                    else:
+                        None
 
-if OptionType == "EU":
-    if CallPut == "Call":
-        payoffs = np.maximum(paths[-1]-K, 0)
-    elif CallPut == "Put":
-        payoffs = np.maximum(K-paths[-1], 0)
-elif OptionType == "US":
-    if CallPut == "Call":
-        None
-    elif CallPut == "Put":
-        None
-elif OptionType == "Asian":
-    avg_ = np.average(paths, axis=0)
-#     if CallPut == "Call":
-#         payoffs = np.max(avg_-K, 0)
-#     elif CallPut == "Put":
-#         payoffs = np.max(K-avg_, 0)
-    if CallPut == "Call":
-        payoffs = np.maximum(paths[-1]-avg_, 0)
-    elif CallPut == "Put":
-        payoffs = np.maximum(avg_-paths[-1], 0)
-
-elif OptionType == "Bermudan":
-    if CallPut == "Call":
-        None
-    elif CallPut == "Put":
-        None
-elif OptionType == "Chooser":
-    None
-elif OptionType == "LookBack":
-    if CallPut == "Call":
-        max_ = np.max(paths, axis=0)
-        payoffs = np.maximum(max_-K, 0)
-    elif CallPut == "Put":
-        min_ = np.min(paths, axis=0)
-        payoffs = np.maximum(K-min_, 0)
-elif OptionType == "Barrier":
-    if "Knock-In" in CallPut:
-        maxs = np.amax(paths, axis=0)
         paths = np.transpose(paths)
-        for cnt in paths:
-            if "Up" in CallPut:
-                if max(cnt) <= KnockPrice:
-                    i = 0
-                    for num in cnt:
-                        cnt[i] = 0
-                        i += 1
-                else:
-                    None
-            if "Down" in CallPut:
-                if min(cnt) >= KnockPrice:
-                    i = 0
-                    for num in cnt:
-                        cnt[i] = 0
-                        i += 1
-                    #print(paths)
-                else:
-                    None
-       
-    elif "Knock-Out" in CallPut:
-        mins = np.amin(paths, axis=0)
-        paths = np.transpose(paths)
-        for cnt in paths:
-            if "Down" in CallPut:
-                if min(cnt) <= KnockPrice:
-                    i = 0
-                    for num in cnt:
-                        cnt[i] = 0
-                        i += 1
-                else:
-                    None
-            if "Up" in CallPut:
-                if max(cnt) >= KnockPrice:
-                    i = 0
-                    for num in cnt:
-                        cnt[i] = 0
-                        i += 1
-                else:
-                    None
-        
-    paths = np.transpose(paths)
-    print(paths)
-    if "Call" in CallPut:
-        payoffs = np.maximum(paths[-1]-K, 0)
-    elif "Put" in CallPut:
-        payoffs = np.maximum(K-paths[-1], 0)
-    
-else:
-    None
+        print(paths)
+        if "CALL" in CallPut:
+            payoffs = np.maximum(paths[-1] - K, 0)
+        elif "PUT" in CallPut:
+            payoffs = np.maximum(K - paths[-1], 0)
+
+    else:
+        None
+
+    # discounting back to present value
+    option_price = np.mean(payoffs) * np.exp(-r * TTM)
+    print(option_price)
 
 
-# discounting back to present value
-option_price = np.mean(payoffs)*np.exp(-r*TTM)
-print(option_price)
-
+monteCarloTool()
 
 # plt.plot(paths)
 # plt.xlabel("Time Increments")
