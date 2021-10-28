@@ -3,7 +3,8 @@ import math
 import BionomialTree as BT, \
     findStockPrices as FPF, \
     findOptionPayoff as FV, \
-    SpecificFunctions as F
+    SpecificFunctions as F, \
+    BarrierOptions as B
 
 # basic inputs:
 PStock = 36
@@ -25,6 +26,9 @@ OptionType = "LookBack"
 CallPut = "Put"
 decisionPeriod = 2
 ExerciseOpportunities = []
+UpDown = 'Up'
+InOut = 'In'
+Barrier = 130
 
 OptionPrice = None
 
@@ -84,6 +88,18 @@ elif OptionType == "LookBack":
         MaturityValues = FV.find_values_put(StockPrices, PExercise)
         OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
 elif OptionType == "Barrier":
-    pass
+    if InOut == "Out":
+        OptionPrice = B.binomial_tree_barrier(PExercise, maturity, PStock, interest, periods, Barrier, volatility, CallPut, UpDown)
+    elif InOut == "In":
+        OutPrice = B.binomial_tree_barrier(PExercise, maturity, PStock, interest, periods, Barrier, volatility, CallPut, UpDown)
+        if CallPut == "Call":
+            StockPrices = FPF.find_final_prices(PStock, u, d, periods)
+            MaturityValues = FV.find_values_call(StockPrices, PExercise)
+            EUPrice = BT.basic_tree(MaturityValues, periods, q, R)
+        elif CallPut == "Put":
+            StockPrices = FPF.find_final_prices(PStock, u, d, periods)
+            MaturityValues = FV.find_values_put(StockPrices, PExercise)
+            EUPrice = BT.basic_tree(MaturityValues, periods, q, R)
+        OptionPrice = EUPrice - OutPrice
 
 print(OptionPrice)
