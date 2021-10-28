@@ -17,20 +17,16 @@ def find_value(prices, periods, q, R):
     step = periods
     values = list.copy(prices)
     top = len(prices) - periods - 1
-    stepInverse = 2 * periods
-    stepinverse2 = 0
     for i in range(periods):
         for j in range(step):
             value = ((q * values[top]) + ((1 - q) * values[top + 1])) * (1 / R)
-            if prices[top - periods + stepinverse2] < value:
-                values.pop(top - periods + stepinverse2)
-                values.insert(top - periods + stepinverse2, value)
+            if prices[top - step] < value:
+                values.pop(top - step)
+                values.insert(top - step, value)
             top += 1
         print(values)
+        top -= 2 * step
         step -= 1
-        top -= stepInverse
-        stepInverse -= 2
-        stepinverse2 += 1
     return values
 
 
