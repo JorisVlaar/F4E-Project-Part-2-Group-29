@@ -12,17 +12,17 @@ import numpy as np
 N = 60000  # number of simulations
 n = 250  # number of steps
 
-P0 = input("Enter initial stock price: ")
-K = input("Enter strike price: ")
-r = input("Enter the annual interest rate as a fraction: ")
-v = input("Enter the volatility as a fraction: ")
-TTM = input("Enter the Time to Maturity in years:")
-Barrier = input("Enter the Barrier level:")
-OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER):").upper()
+P0 = int(input("Enter initial stock price: "))
+K = int(input("Enter strike price: "))
+r = float(input("Enter the annual interest rate as a fraction: "))
+v = float(input("Enter the volatility as a fraction: "))
+TTM = float(input("Enter the Time to Maturity in years: "))
+Barrier = int(input("Enter the Barrier level: "))
+OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER): ").upper()
 if "BARRIER" in OptionType:
-    InOut = input("Enter the barrier type (choose from IN, OUT):").upper()
-    UpDown = input("Enter the barrier type (choose from UP, DOWN):").upper()
-CallPut = input("Choose between: CALL, PUT").upper()
+    InOut = input("Enter the barrier type (choose from IN, OUT): ").upper()
+    UpDown = input("Enter the barrier type (choose from UP, DOWN): ").upper()
+CallPut = input("Choose between: CALL, PUT ").upper()
 
 
 def simulation_path(P0, r, v, n, N, TTM):
