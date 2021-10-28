@@ -69,12 +69,6 @@ d = 1 / u
 R = math.exp(interest * periodLength)
 q = (R - d) / (u - d)
 
-# rounded values for checking
-u = 1.0748
-d = 0.9304
-q = 0.4993
-print(find_value([4.1280, 4.8504, 12.2398], decisionPeriod, 0, q, R)[0])
-
 stockPrices = fsp.find_final_prices(PStock, u, d, periods)
 optionPayOffCall = find_values_call(list.copy(stockPrices), PExercise)
 optionPayOffPut = find_values_put(list.copy(stockPrices), PExercise)
