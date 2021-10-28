@@ -19,7 +19,6 @@ def find_exercise_price(prices, periods):
             PExercise = prices[i]
         elif prices[i] > PExercise:
             PExercise = prices[i]
-    #print(PExercise == prices[len(prices) - 2 * periods - 1])
     return PExercise
 
 
