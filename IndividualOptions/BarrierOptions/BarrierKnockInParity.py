@@ -101,7 +101,7 @@ bartype = 'U'  # Barrier Type 'U' or 'D' for up or down
 bart = 'I'      # Barrier Type 'I' for knock-in 'O' for Knock-out
 
 # Testing
-print(calculation(K, TTM, P0, r, 38, B, v, opttype, bartype, bart))
+print(calculation(K, TTM, P0, r, N, B, v, opttype, bartype, bart))
 
 # Testing
 # i = 20
