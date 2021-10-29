@@ -31,10 +31,10 @@ InOut = 'In'
 Barrier = 35
 
 OptionPrice = None
+MaturityValues = None
 
 if OptionType == "EU":
     StockPrices = FPF.find_final_prices(PStock, u, d, periods)
-    MaturityValues = None
     if CallPut == "Call":
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
     elif CallPut == "Put":
@@ -42,7 +42,6 @@ if OptionType == "EU":
     OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
 elif OptionType == "US":
     StockPrices = FPF.find_all_prices(PStock, u, d, periods)
-    MaturityValues = None
     if CallPut == "Call":
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
     elif CallPut == "Put":
@@ -51,7 +50,6 @@ elif OptionType == "US":
 elif OptionType == "Asian":
     StockPrices = FPF.find_all_prices(PStock, u, d, periods)
     PExercise = F.find_asian_exercise_price(StockPrices)
-    MaturityValues = None
     if CallPut == "Call":
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
     elif CallPut == "Put":
@@ -59,7 +57,6 @@ elif OptionType == "Asian":
     OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
 elif OptionType == "Bermudan":
     StockPrices = FPF.find_all_prices(PStock, u, d, periods)
-    MaturityValues = None
     if CallPut == "Call":
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
     elif CallPut == "Put":
@@ -74,7 +71,6 @@ elif OptionType == "Chooser":
 elif OptionType == "LookBack":
     StockPrices = FPF.find_all_prices(PStock, u, d, periods)
     PExercise = F.find_lookBackCall_exercise_price(StockPrices, periods)
-    MaturityValues = None
     if CallPut == "Call":
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
     elif CallPut == "Put":
@@ -84,7 +80,6 @@ elif OptionType == "Barrier":
     OptionPrice = B.binomial_tree_barrier(PExercise, maturity, PStock, interest, periods, Barrier, volatility, CallPut, UpDown)
     if InOut == "In":
         StockPrices = FPF.find_final_prices(PStock, u, d, periods)
-        MaturityValues = None
         if CallPut == "Call":
             MaturityValues = FV.find_values_call(StockPrices, PExercise)
         elif CallPut == "Put":
