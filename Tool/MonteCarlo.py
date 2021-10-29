@@ -1,5 +1,4 @@
 import numpy as np
-import array
 import matplotlib.pyplot as plt
 
 # Standard inputs (for testing)
