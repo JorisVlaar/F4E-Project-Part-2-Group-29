@@ -44,10 +44,19 @@ def monteCarloTool():
         elif "PUT" in CallPut:
             payoffs = np.maximum(K - paths[-1], 0)
     elif "US" in OptionType:
-        if "CALL" in CallPut:
-            None
-        elif "PUT" in CallPut:
-            None
+        r = np.power(r, dt)
+        cnt = 1
+        if CallPut == "Call":
+            for step in paths:
+                PVPayoffs = np.append(PVPayoffs, (step-K)*np.power(r, -cnt), axis=0)
+                cnt += 1
+        elif CallPut == "Put":
+            for step in paths:
+                PVPayoffs = np.append(PVPayoffs, (K-step)*np.power(r, -cnt), axis=0)
+                cnt += 1
+        PVPayoffs = np.transpose(PVPayoffs)
+        for sharepayoff in PVPayoffs:
+            payoffs = np.append(payoffs, np.maximum(sharepayoff, 0),axis=0)
     elif "ASIAN" in OptionType:
         avg_ = np.average(paths, axis=0)
         #     if CallPut == "Call":
@@ -62,14 +71,14 @@ def monteCarloTool():
     elif "BERMUDAN" in OptionType:
         if CallPut == "Call":
             for period in decision:
-                PotentialPayoffs = np.append(PotentialPayoffs, np.maximum((paths[period]-K)*np.exp(-r*dt*period),0))
+                PotentialPayoffs = np.append(PotentialPayoffs, np.maximum((paths[period]-K)*np.exp(-r*dt*period),0), axis=0)
             print(PotentialPayoffs)
             PotentialPayoffs = np.transpose(PotentialPayoffs)
             for row in PotentialPayoffs:
                 payoffs = np.append(payoffs, np.maximum(row))
         elif CallPut == "Put":
             for period in decision:
-                PotentialPayoffs = np.append(PotentialPayoffs, np.maximum((K-paths[period])*np.exp(-r*dt*period),0))
+                PotentialPayoffs = np.append(PotentialPayoffs, np.maximum((K-paths[period])*np.exp(-r*dt*period),0), axis=0)
             print(PotentialPayoffs)
             PotentialPayoffs = np.transpose(PotentialPayoffs)
             for row in PotentialPayoffs:
