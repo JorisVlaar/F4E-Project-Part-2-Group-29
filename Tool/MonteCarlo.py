@@ -2,26 +2,27 @@ import numpy as np
 import array
 import matplotlib.pyplot as plt
 
-# Standard inputs
-P0 = 100             # initial stock price
-K = 110              # strike
-r = 0.05             # annual interest rate
-v = 0.25             # volatility
-TTM = 1              # time to maturity
-Barrier = 105        # Barrier
-N = 30000  # number of simulations
-n = 365 # number of steps
-OptionType = "BARRIER"
-CallPut = "CALL"
-InOut = "IN"
-UpDown = "UP"
+# Standard inputs (for testing)
+# P0 = 100             # initial stock price
+# K = 110              # strike
+# r = 0.05             # annual interest rate
+# v = 0.25             # volatility
+# TTM = 1              # time to maturity
+# Barrier = 105        # Barrier
+# OptionType = "BARRIER"
+# CallPut = "CALL"
+# InOut = "IN"
+# UpDown = "UP"
 
-# P0 = int(input("Enter initial stock price: "))
-# K = int(input("Enter strike price: "))
-# r = float(input("Enter the annual interest rate as a fraction: "))
-# v = float(input("Enter the volatility as a fraction: "))
-# TTM = float(input("Enter the Time to Maturity in years: "))
-# Barrier = int(input("Enter the Barrier level: "))
+# ------------------------------------------------------------------------------------------------------------- #
+
+
+P0 = int(input("Enter initial stock price: "))
+K = int(input("Enter strike price: "))
+r = float(input("Enter the annual interest rate as a fraction: "))
+v = float(input("Enter the volatility as a fraction: "))
+TTM = float(input("Enter the Time to Maturity in years: "))
+Barrier = int(input("Enter the Barrier level: "))
 OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER): ").upper()
 if "BARRIER" in OptionType:
     InOut = input("Enter the barrier type (choose from IN, OUT): ").upper()
@@ -29,18 +30,28 @@ if "BARRIER" in OptionType:
 elif "BERMUDAN" in OptionType:   
     ExcerciseDates = input("Enter the day from start on which the option can be excercies, seperated by '-'. Example: 5-40-67-218.  ")
     decision = ExcerciseDates.split("-") 
-# CallPut = input("Choose between: CALL, PUT ").upper()
+CallPut = input("Choose between: CALL, PUT ").upper()
 
 
-def simulation_path(P0, r, v, n, N, TTM):
-    dt = TTM / n
+# ------------------------------------------------------------------------------------------------------------- #
+
+
+# Global variables (no input)
+N = 30000       # number of simulations
+n = 365         # number of steps
+dt = TTM/n      # time step
+
+
+# ------------------------------------------------------------------------------------------------------------- #
+
+def simulation_path(P0, r, v, n, N):
     Pt = np.log(P0) + np.cumsum(((r - ((v ** 2) / 2)) * dt +
                                  v * np.sqrt(dt) * np.random.normal(size=(n, N))), axis=0)
     return np.round_(np.exp(Pt), decimals=2)
 
 
 def monteCarloTool():
-    paths = simulation_path(P0, r, v, n, N, TTM)
+    paths = simulation_path(P0, r, v, n, N)
     if "EU" in OptionType:
         if "CALL" in CallPut:
             payoffs = np.maximum(paths[-1] - K, 0)
