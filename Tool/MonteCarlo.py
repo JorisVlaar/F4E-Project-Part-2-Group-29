@@ -33,8 +33,7 @@ def simulation_path(P0, r, v, n, N, TTM):
     dt = TTM / n
     Pt = np.log(P0) + np.cumsum(((r - ((v ** 2) / 2)) * dt +
                                  v * np.sqrt(dt) * np.random.normal(size=(n, N))), axis=0)
-    Pt = np.round_(Pt, decimals=2)
-    return np.exp(Pt)
+    return np.round_(np.exp(Pt), decimals=2)
 
 
 def monteCarloTool():
