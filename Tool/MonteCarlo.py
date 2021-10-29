@@ -9,8 +9,8 @@ r = 0.05             # annual interest rate
 v = 0.25             # volatility
 TTM = 1              # time to maturity
 Barrier = 105        # Barrier
-N = 60000  # number of simulations
-n = 270 # number of steps
+N = 30000  # number of simulations
+n = 365 # number of steps
 OptionType = "BARRIER"
 CallPut = "CALL"
 InOut = "IN"
@@ -22,10 +22,13 @@ UpDown = "UP"
 # v = float(input("Enter the volatility as a fraction: "))
 # TTM = float(input("Enter the Time to Maturity in years: "))
 # Barrier = int(input("Enter the Barrier level: "))
-# OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER): ").upper()
-# if "BARRIER" in OptionType:
-#     InOut = input("Enter the barrier type (choose from IN, OUT): ").upper()
-#     UpDown = input("Enter the barrier type (choose from UP, DOWN): ").upper()
+OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER): ").upper()
+if "BARRIER" in OptionType:
+    InOut = input("Enter the barrier type (choose from IN, OUT): ").upper()
+    UpDown = input("Enter the barrier type (choose from UP, DOWN): ").upper()
+elif "BERMUDAN" in OptionType:   
+    ExcerciseDates = input("Enter the day from start on which the option can be excercies, seperated by '-'. Example: 5-40-67-218.  ")
+    decision = ExcerciseDates.split("-") 
 # CallPut = input("Choose between: CALL, PUT ").upper()
 
 
