@@ -33,43 +33,38 @@ Barrier = 35
 OptionPrice = None
 
 if OptionType == "EU":
+    StockPrices = FPF.find_final_prices(PStock, u, d, periods)
+    MaturityValues = None
     if CallPut == "Call":
-        StockPrices = FPF.find_final_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
-        OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
     elif CallPut == "Put":
-        StockPrices = FPF.find_final_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_put(StockPrices, PExercise)
-        OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
+    OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
 elif OptionType == "US":
+    StockPrices = FPF.find_all_prices(PStock, u, d, periods)
+    MaturityValues = None
     if CallPut == "Call":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
-        OptionPrice = BT.American_tree(MaturityValues, periods, q, R)
     elif CallPut == "Put":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_put(StockPrices, PExercise)
-        OptionPrice = BT.American_tree(MaturityValues, periods, q, R)
+    OptionPrice = BT.American_tree(MaturityValues, periods, q, R)
 elif OptionType == "Asian":
+    StockPrices = FPF.find_all_prices(PStock, u, d, periods)
+    PExercise = F.find_asian_exercise_price(StockPrices)
+    MaturityValues = None
     if CallPut == "Call":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
-        PExercise = F.find_asian_exercise_price(StockPrices)
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
-        OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
     elif CallPut == "Put":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
-        PExercise = F.find_asian_exercise_price(StockPrices)
         MaturityValues = FV.find_values_put(StockPrices, PExercise)
-        OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
+    OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
 elif OptionType == "Bermudan":
+    StockPrices = FPF.find_all_prices(PStock, u, d, periods)
+    MaturityValues = None
     if CallPut == "Call":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
-        OptionPrice = BT.Bermudan_tree(MaturityValues, periods, ExerciseOpportunities, q, R)
     elif CallPut == "Put":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
         MaturityValues = FV.find_values_put(StockPrices, PExercise)
-        OptionPrice = BT.Bermudan_tree(MaturityValues, periods, ExerciseOpportunities, q, R)
+    OptionPrice = BT.Bermudan_tree(MaturityValues, periods, ExerciseOpportunities, q, R)
 elif OptionType == "Chooser":
     StockPrices = FPF.find_final_prices(PStock, u, d, periods)
     optionPayOffCall = FV.find_values_call(list.copy(StockPrices), PExercise)
@@ -77,29 +72,24 @@ elif OptionType == "Chooser":
     valuesBefore = F.value_chooser_before(optionPayOffCall, optionPayOffPut, periods, decisionPeriod, q, R)
     OptionPrice = BT.basic_tree(valuesBefore, decisionPeriod, q, R)
 elif OptionType == "LookBack":
+    StockPrices = FPF.find_all_prices(PStock, u, d, periods)
+    PExercise = F.find_lookBackCall_exercise_price(StockPrices, periods)
+    MaturityValues = None
     if CallPut == "Call":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
-        PExercise = F.find_lookBackCall_exercise_price(StockPrices, periods)
         MaturityValues = FV.find_values_call(StockPrices, PExercise)
-        OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
     elif CallPut == "Put":
-        StockPrices = FPF.find_all_prices(PStock, u, d, periods)
-        PExercise = F.find_lookBackPut_exercise_price(StockPrices, periods)
         MaturityValues = FV.find_values_put(StockPrices, PExercise)
-        OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
+    OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
 elif OptionType == "Barrier":
-    if InOut == "Out":
-        OptionPrice = B.binomial_tree_barrier(PExercise, maturity, PStock, interest, periods, Barrier, volatility, CallPut, UpDown)
-    elif InOut == "In":
-        OutPrice = B.binomial_tree_barrier(PExercise, maturity, PStock, interest, periods, Barrier, volatility, CallPut, UpDown)
+    OptionPrice = B.binomial_tree_barrier(PExercise, maturity, PStock, interest, periods, Barrier, volatility, CallPut, UpDown)
+    if InOut == "In":
+        StockPrices = FPF.find_final_prices(PStock, u, d, periods)
+        MaturityValues = None
         if CallPut == "Call":
-            StockPrices = FPF.find_final_prices(PStock, u, d, periods)
             MaturityValues = FV.find_values_call(StockPrices, PExercise)
-            EUPrice = BT.basic_tree(MaturityValues, periods, q, R)
         elif CallPut == "Put":
-            StockPrices = FPF.find_final_prices(PStock, u, d, periods)
             MaturityValues = FV.find_values_put(StockPrices, PExercise)
-            EUPrice = BT.basic_tree(MaturityValues, periods, q, R)
-        OptionPrice = EUPrice - OutPrice
+        EUPrice = BT.basic_tree(MaturityValues, periods, q, R)
+        OptionPrice = EUPrice - OptionPrice
 
 print(OptionPrice)
