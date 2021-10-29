@@ -1,7 +1,7 @@
 import numpy as np
 import math 
 
-def binomial_tree(K,TTM,P0,r,N,v,opttype='C'):
+def binomial_tree(K,TTM,P0,r,N,v,opttype):
     #Calculate constants
     dt = TTM/N
     u = math.exp(v * math.sqrt(dt))     # up-factor in binomial models
