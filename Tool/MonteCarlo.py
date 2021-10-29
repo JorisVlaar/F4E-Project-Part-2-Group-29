@@ -57,6 +57,7 @@ def monteCarloTool():
         PVPayoffs = np.transpose(PVPayoffs)
         for sharepayoff in PVPayoffs:
             payoffs = np.append(payoffs, np.maximum(sharepayoff, 0),axis=0)
+        TTM = 0
     elif "ASIAN" in OptionType:
         avg_ = np.average(paths, axis=0)
         #     if CallPut == "Call":
