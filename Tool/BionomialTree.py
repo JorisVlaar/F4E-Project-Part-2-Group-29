@@ -4,12 +4,10 @@ def basic_tree(prices, periods, q, R):
     values = []
     for i in range(periods):
         top = 0
-        bottom = top + 1
         for j in range(step):
-            value = ((q * prices[top]) + ((1 - q) * prices[bottom])) * (1 / R)
+            value = ((q * prices[top]) + ((1 - q) * prices[top + 1])) * (1 / R)
             values.append(value)
-            top = bottom
-            bottom += 1
+            top += 1
         print(values)
         prices = list.copy(values)
         values.clear()
@@ -57,12 +55,10 @@ def Chooser_tree(prices, periods, decision, q, R):
     values = []
     for i in range(periods):
         top = 0
-        bottom = top + 1
         for j in range(step):
-            value = ((q * prices[top]) + ((1 - q) * prices[bottom])) * (1 / R)
+            value = ((q * prices[top]) + ((1 - q) * prices[top + 1])) * (1 / R)
             values.append(value)
-            top = bottom
-            bottom += 1
+            top += 1
         print(values)
         prices = list.copy(values)
         values.clear()

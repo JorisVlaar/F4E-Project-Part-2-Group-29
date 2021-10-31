@@ -46,7 +46,6 @@ d = 1 / u
 R = math.exp(interest * periodLength)
 q = (R - d) / (u - d)
 
-stockPricesSimple = fsp.find_final_prices(PStock, u, d, periods)
 stockPrices = fsp.find_all_prices(PStock, u, d, periods)
 optionPayOff = find_values(list.copy(stockPrices), PExercise)
 
