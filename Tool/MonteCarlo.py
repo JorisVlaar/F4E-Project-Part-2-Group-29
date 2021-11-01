@@ -57,20 +57,19 @@ def monteCarloTool():
         elif "PUT" in CallPut:
             payoffs = np.maximum(K - paths[-1], 0)
     elif "US" in OptionType:
-        r = np.power(r, dt)
-        cnt = 1
+        USr = np.power(1+r, dt)
+        cnt = 0
+        PVPayoffs = np.empty((n,N))
         if CallPut == "Call":
             for step in paths:
-                PVPayoffs = np.append(PVPayoffs, (step-K)*np.power(r, -cnt), axis=0)
+                PVPayoffs[cnt] = (step-K)*np.power(USr, -cnt)
                 cnt += 1
         elif CallPut == "Put":
             for step in paths:
-                PVPayoffs = np.append(PVPayoffs, (K-step)*np.power(r, -cnt), axis=0)
+                PVPayoffs[cnt] = (K-step) * np.power(USr, -cnt)
                 cnt += 1
-        PVPayoffs = np.transpose(PVPayoffs)
-        for sharepayoff in PVPayoffs:
-            payoffs = np.append(payoffs, np.maximum(sharepayoff, 0),axis=0)
-        TTM = 0
+        payoffs = np.maximum(np.amax(PVPayoffs, axis=0), 0)
+        option_price = payoffs
     elif "ASIAN" in OptionType:
         avg_ = np.average(paths, axis=0)
         #     if CallPut == "Call":
