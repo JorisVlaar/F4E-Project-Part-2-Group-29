@@ -17,11 +17,11 @@ interest = 0.1
 
 # Specific input
 OptionType = "BARRIER"
-CallPut = "Call"
+CallPut = "CALL"
 decisionPeriod = 2
 ExerciseOpportunities = []
-UpDown = 'Up'
-InOut = 'In'
+UpDown = "UP"
+InOut = "IN"
 Barrier = 35
 
 
