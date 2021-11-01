@@ -29,7 +29,7 @@ def American_tree(prices, periods, q, R):
         #print(values)
         top -= 2 * step
         step -= 1
-    return values
+    return values[0]
 
 
 def Bermudan_tree(prices, periods, ExerciseOpportunities, q, R):
@@ -46,7 +46,7 @@ def Bermudan_tree(prices, periods, ExerciseOpportunities, q, R):
         #print(values)
         top -= 2 * step
         step -= 1
-    return values
+    return values[0]
 
 
 def Chooser_tree(prices, periods, decision, q, R):
@@ -63,5 +63,5 @@ def Chooser_tree(prices, periods, decision, q, R):
         prices = list.copy(values)
         values.clear()
         step -= 1
-    return prices
+    return prices[0]
 
