@@ -22,14 +22,17 @@ elif "BERMUDAN" in OptionType:
     decision = ExcerciseDates.split("-")
 elif "CHOOSER" in OptionType:
     decision = input("Enter the period from start on which the option type can be chosen. Example: 5.  ")
-CallPut = input("Choose between: CALL, PUT ").upper()
-if ToolType == "BINOMIAL":
+
+if not "CHOOSER" in OptionType:
+    CallPut = input("Choose between: CALL, PUT ").upper()
+
+if "BINOMIAL" in ToolType:
     periods = int(input("Enter the amount of periods to use in the simulation: "))
     print(BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier))
 
-elif ToolType == "MONTE CARLO":
+elif "MONTE" and "CARLO" in ToolType:
     MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
-elif ToolType == "BOTH":
+elif "BOTH" in ToolType:
     periods = int(input("Enter the amount of periods to use in the binomial simulation(advised to keep below 1000): "))
     print("Binomial: ", BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier))
     MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
