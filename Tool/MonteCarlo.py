@@ -99,8 +99,8 @@ def monteCarloTool():
                 cnt += 1
         payoffs = np.maximum(np.amax(PotentialPayoffs, axis=0), 0)
     elif "CHOOSER" in OptionType:
-        ValueIfPut = np.maximum(K-paths[decision], 0)
-        ValueIfCall = np.maximum(paths[decision]-K, 0)
+        ValueIfPut = np.maximum(K-paths[decision-1], 0)
+        ValueIfCall = np.maximum(paths[decision-1]-K, 0)
         payoffs = np.maximum(ValueIfPut, ValueIfCall)*np.power(r, -dt*decision)
     elif "LOOKBACK" in OptionType:
         if "CALL" in CallPut:
