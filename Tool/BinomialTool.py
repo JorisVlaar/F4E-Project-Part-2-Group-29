@@ -91,4 +91,4 @@ def DOBinomial(OptionType, CallPut, PStock, PExercise, volatility, maturity, per
             OptionPrice = EUPrice - OptionPrice
     return OptionPrice
 
-print(DOBinomial(OptionType, CallPut, PStock, PExercise, volatility, maturity, periods, interest, decisionPeriod, ExerciseOpportunities, UpDown, InOut, Barrier))
+#print(DOBinomial(OptionType, CallPut, PStock, PExercise, volatility, maturity, periods, interest, decisionPeriod, ExerciseOpportunities, UpDown, InOut, Barrier))

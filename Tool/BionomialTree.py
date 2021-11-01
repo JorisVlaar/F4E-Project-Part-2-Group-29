@@ -8,7 +8,7 @@ def basic_tree(prices, periods, q, R):
             value = ((q * prices[top]) + ((1 - q) * prices[top + 1])) * (1 / R)
             values.append(value)
             top += 1
-        print(values)
+        #print(values)
         prices = list.copy(values)
         values.clear()
         step -= 1
@@ -26,7 +26,7 @@ def American_tree(prices, periods, q, R):
                 values.pop(top - step)
                 values.insert(top - step, value)
             top += 1
-        print(values)
+        #print(values)
         top -= 2 * step
         step -= 1
     return values
@@ -43,7 +43,7 @@ def Bermudan_tree(prices, periods, ExerciseOpportunities, q, R):
                 values.pop(top - step)
                 values.insert(top - step, value)
             top += 1
-        print(values)
+        #print(values)
         top -= 2 * step
         step -= 1
     return values
@@ -59,7 +59,7 @@ def Chooser_tree(prices, periods, decision, q, R):
             value = ((q * prices[top]) + ((1 - q) * prices[top + 1])) * (1 / R)
             values.append(value)
             top += 1
-        print(values)
+        #print(values)
         prices = list.copy(values)
         values.clear()
         step -= 1
