@@ -28,12 +28,12 @@ if ToolType == "BINOMIAL":
     print(BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier))
 
 elif ToolType == "MONTE CARLO":
-    print(MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision))
+    MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
 elif ToolType == "BOTH":
     periods = int(input("Enter the amount of periods to use in the binomial simulation: "))
     BinomialPrice = BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut,
                                 Barrier)
     MonteCarloPrice = MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
     print("Binomial: ", BinomialPrice)
-    print("Monte Carlo: ", MonteCarloPrice)
+   
 
