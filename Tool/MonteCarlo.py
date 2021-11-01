@@ -89,7 +89,6 @@ def monteCarloTool():
                 PVPayoffs[cnt] = (K-step) * np.power(USr, -cnt)
                 cnt += 1
         payoffs = np.maximum(np.amax(PVPayoffs, axis=0), 0)
-        option_price = payoffs
     elif "ASIAN" in OptionType:
         avg_ = np.average(paths, axis=0)
         #     if CallPut == "Call":
@@ -128,7 +127,6 @@ def monteCarloTool():
             payoffs = np.maximum(K - min_, 0)
     elif "BARRIER" in OptionType:
         if "IN" in InOut:
-            maxs = np.amax(paths, axis=0)
             paths = np.transpose(paths)
             for cnt in paths:
                 if "UP" in UpDown:
@@ -150,7 +148,6 @@ def monteCarloTool():
                         None
 
         elif "OUT" in InOut:
-            mins = np.amin(paths, axis=0)
             paths = np.transpose(paths)
             for cnt in paths:
                 if "DOWN" in UpDown:
