@@ -60,11 +60,11 @@ def monteCarloTool():
         USr = np.power(1+r, dt)
         cnt = 0
         PVPayoffs = np.empty((n,N))
-        if CallPut == "Call":
+        if CallPut == "CALL":
             for step in paths:
                 PVPayoffs[cnt] = (step-K)*np.power(USr, -cnt)
                 cnt += 1
-        elif CallPut == "Put":
+        elif CallPut == "PUT":
             for step in paths:
                 PVPayoffs[cnt] = (K-step) * np.power(USr, -cnt)
                 cnt += 1
@@ -86,13 +86,13 @@ def monteCarloTool():
         PotentialPayoffs = np.empty((len(decision), N))
         cnt = 0
         decision = np.array(decision) - 1
-        if CallPut == "Call":
+        if CallPut == "CALL":
             for period in decision:
-                PotentialPayoffs[cnt] = np.maximum((paths[period]-K)*np.exp(-r * dt * period), 0)
+                PotentialPayoffs[cnt] = np.maximum((paths[period]-K)*np.power(1+r, -dt * (period+1)), 0)
                 cnt += 1
-        elif CallPut == "Put":
+        elif CallPut == "PUT":
             for period in decision:
-                PotentialPayoffs[cnt] = np.maximum((K - paths[period]) * np.exp(-r * dt * period), 0)
+                PotentialPayoffs[cnt] = np.maximum((K - paths[period]) * np.power(1+r, -dt * (period+1)), 0)
                 cnt += 1
         payoffs = np.maximum(np.amax(PotentialPayoffs, axis=0), 0)
     elif "CHOOSER" in OptionType:
@@ -162,7 +162,11 @@ def monteCarloTool():
         None
 
     # discounting back to present value
-    option_price = np.mean(payoffs) * np.exp(-r * TTM)
+    global option_price
+    if "EU" in OptionType or "ASIAN" in OptionType or "LOOKBACK" in OptionType or "BARRIER" in OptionType:
+        option_price = np.mean(payoffs) * np.exp(-r * TTM)
+    elif "US" in OptionType or "BERMUDAN" in OptionType or "CHOOSER" in OptionType:
+        option_price = np.mean(payoffs)
     print(option_price)
     P = [1,N]
     P = np.ones(P)*100
