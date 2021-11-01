@@ -5,6 +5,7 @@ InOut = None
 UpDown = None
 ExcerciseDates = None
 decision = None
+CallPut = None
 ToolType = input("Enter the type of simulation (choose either Binomial, Monte Carlo or Both): ").upper()
 P0 = int(input("Enter initial stock price: "))
 K = int(input("Enter strike price: "))
@@ -21,7 +22,7 @@ elif "BERMUDAN" in OptionType:
     ExcerciseDates = input("Enter the day from start on which the option can be excercised. Example: 5-40-67-218.  ")
     decision = ExcerciseDates.split("-")
 elif "CHOOSER" in OptionType:
-    decision = input("Enter the period from start on which the option type can be chosen. Example: 5.  ")
+    decision = int(input("Enter the period from start on which the option type can be chosen. Example: 5.  "))
 
 if not "CHOOSER" in OptionType:
     CallPut = input("Choose between: CALL, PUT ").upper()
