@@ -1,22 +1,22 @@
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # ------------------------------------------------------------------------------------------------------------- #
 
 # Standard inputs (for testing)
-P0 = 100             # initial stock price
+P0 = 90             # initial stock price
 K = 110              # strike
 r = 0.05             # annual interest rate
-v = 0.25             # volatility
+v = 0.20             # volatility
 TTM = 1              # time to maturity
-Barrier = 105        # Barrier
-OptionType = "EU"
-CallPut = "CALL"
+Barrier = 100        # Barrier
+OptionType = "BARRIER"
+CallPut = "PUT"
 InOut = "IN"
-UpDown = "UP"
+UpDown = "DOWN"
 decision = "1"
 option_price = 0
-N = 30000       # number of simulations
+N = 60000       # number of simulations
 n = 365         # number of steps
 dt = TTM/n
 
@@ -66,7 +66,7 @@ def simulation_path(P0, r, v, n, N):
 
 
 def monteCarloTool():
-    inputs()
+    #inputs()
     paths = simulation_path(P0, r, v, n, N)
     global option_price
     global decision
@@ -133,16 +133,22 @@ def monteCarloTool():
                     if max(cnt) <= Barrier:
                         i = 0
                         for num in cnt:
-                            cnt[i] = 0
-                            i += 1
+                            if "PUT" in CallPut:
+                                cnt[i] = K+1
+                            else:
+                                cnt[i] = 0
+                            i += 1   
                     else:
                         None
                 if "DOWN" in UpDown:
                     if min(cnt) >= Barrier:
                         i = 0
                         for num in cnt:
-                            cnt[i] = 0
-                            i += 1
+                            if "PUT" in CallPut:
+                                cnt[i] = K+1
+                            else:
+                                cnt[i] = 0
+                            i += 1   
                         # print(paths)
                     else:
                         None
@@ -154,16 +160,22 @@ def monteCarloTool():
                     if min(cnt) <= Barrier:
                         i = 0
                         for num in cnt:
-                            cnt[i] = 0
-                            i += 1
+                            if "PUT" in CallPut:
+                                cnt[i] = K+1
+                            else:
+                                cnt[i] = 0
+                            i += 1   
                     else:
                         None
                 if "UP" in UpDown:
                     if max(cnt) >= Barrier:
                         i = 0
                         for num in cnt:
-                            cnt[i] = 0
-                            i += 1
+                            if "PUT" in CallPut:
+                                cnt[i] = K+1
+                            else:
+                                cnt[i] = 0
+                            i += 1   
                     else:
                         None
 
@@ -173,6 +185,7 @@ def monteCarloTool():
             payoffs = np.maximum(paths[-1] - K, 0)
         elif "PUT" in CallPut:
             payoffs = np.maximum(K - paths[-1], 0)
+         
 
     else:
         None
@@ -188,14 +201,14 @@ def monteCarloTool():
     paths = np.insert(paths, 0 , P, axis=0)
 
 
-    plt.plot(paths)
-    plt.xlabel("Time Increments")
-    plt.ylabel("Stock Price")
-    plt.title("Geometric Brownian Motion")
-    plt.xlim(0, n-1)       # set the xlim to left, right
-    plt.show()              # Might take a while :)
+    # plt.plot(paths)
+    # plt.xlabel("Time Increments")
+    # plt.ylabel("Stock Price")
+    # plt.title("Geometric Brownian Motion")
+    # plt.xlim(0, n-1)       # set the xlim to left, right
+    # plt.show()              # Might take a while :)
 
 
-#monteCarloTool()
+monteCarloTool()
 
 
