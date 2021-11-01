@@ -157,7 +157,7 @@ def monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown
         option_price = np.mean(payoffs) * np.exp(-r * TTM)
     elif "US" in OptionType or "BERMUDAN" in OptionType or "CHOOSER" in OptionType:
         option_price = np.mean(payoffs)
-    print(option_price)
+    
     P = [1, N]
     P = np.ones(P)*100
     paths = np.insert(paths, 0, P, axis=0)
@@ -169,5 +169,5 @@ def monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown
     plt.xlim(0, n-1)                            # set the xlim to left, right
     plt.show()                                  # Might take a while :)
 
-
+    return option_price
 #monteCarloTool()
