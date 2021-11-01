@@ -16,20 +16,20 @@ def binomial_tree_barrier(K, TTM, P0, r, N, B, v, opttype, bartype):
 
     # Final Option payoffs
     C = np.zeros(N+1)                   # Empty array of 0s
-    if(opttype == 'Call'):                 # Check if Call/Put
+    if(opttype == "CALL"):                 # Check if Call/Put
         for j in range(0, N+1):         # Iterate over binomial-tree and calculate option payoff for Call
             C[j] = max(0, S[j]-K)
-    elif(opttype == 'Put'):
+    elif(opttype == "PUT"):
         for j in range(0, N+1):         # Iterate over binomial-tree and calculate option payoff for Put
             C[j] = max(0, K-S[j])
 
     # Check condition payoff
     for j in range(0, N+1):             # Iterate over array and calculate node value (underlying asset)
         S = P0 * (u**j) * (d**(N-j))
-        if(bartype == 'Up'):             # Check if Up/Down
+        if(bartype == "UP"):             # Check if Up/Down
             if S >= B:                  # Check if barrier is reached
                 C[j] = 0                # Set payoff to 0 if barrier reached
-        elif(bartype == 'Down'):
+        elif(bartype == "DOWN"):
             if S <= B:
                 C[j] = 0
 
@@ -38,12 +38,12 @@ def binomial_tree_barrier(K, TTM, P0, r, N, B, v, opttype, bartype):
         for j in range(0, i+1):
             S = P0 * (u**j) * (d**(i-j))
 
-            if(bartype == 'Up'):         # Check if Up/Down
+            if(bartype == "UP"):         # Check if Up/Down
                 if S >= B:              # Check if barrier is reached
                     C[j] = 0            # Set payoff to 0 if barrier reached
             else:
                   C[j] = disc * (q*C[j+1]+(1-q)*C[j])
-            if(bartype == 'Down'):
+            if(bartype == "DOWN"):
                 if S <= B:
                     C[j] = 0
             else:
