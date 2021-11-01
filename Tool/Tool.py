@@ -5,7 +5,7 @@ InOut = None
 UpDown = None
 ExcerciseDates = None
 decision = None
-ToolType = input("Enter the type of simulation (choose either Binomial or Monte Carlo): ").upper()
+ToolType = input("Enter the type of simulation (choose either Binomial, Monte Carlo or Both): ").upper()
 P0 = int(input("Enter initial stock price: "))
 K = int(input("Enter strike price: "))
 r = float(input("Enter the annual interest rate as a decimal: "))
@@ -25,8 +25,15 @@ elif "CHOOSER" in OptionType:
 CallPut = input("Choose between: CALL, PUT ").upper()
 if ToolType == "BINOMIAL":
     periods = int(input("Enter the amount of periods to use in the simulation: "))
-    OptionPrice = BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier)
+    print(BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier))
+
 elif ToolType == "MONTE CARLO":
-    OptionPrice = MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
-print(OptionPrice)
+    print(MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision))
+elif ToolType == "BOTH":
+    periods = int(input("Enter the amount of periods to use in the binomial simulation: "))
+    BinomialPrice = BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut,
+                                Barrier)
+    MonteCarloPrice = MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
+    print("Binomial: " + BinomialPrice)
+    print("Monte Carlo: " + MonteCarloPrice)
 
