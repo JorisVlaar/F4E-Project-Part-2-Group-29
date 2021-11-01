@@ -26,6 +26,8 @@ elif "CHOOSER" in OptionType:
 CallPut = input("Choose between: CALL, PUT ").upper()
 if ToolType == "BINOMIAL":
     periods = int(input("Enter the amount of periods to use in the simulation:"))
-    BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier)
+    OptionPrice = BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier)
 elif ToolType == "MONTE CARLO":
+    OptionPrice = MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
+print(OptionPrice)
 
