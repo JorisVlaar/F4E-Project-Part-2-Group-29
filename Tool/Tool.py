@@ -34,6 +34,6 @@ elif ToolType == "BOTH":
     BinomialPrice = BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut,
                                 Barrier)
     MonteCarloPrice = MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
-    print("Binomial: " + BinomialPrice)
-    print("Monte Carlo: " + MonteCarloPrice)
+    print("Binomial: ", BinomialPrice)
+    print("Monte Carlo: ", MonteCarloPrice)
 
