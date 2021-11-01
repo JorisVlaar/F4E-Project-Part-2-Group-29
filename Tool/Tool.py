@@ -21,8 +21,7 @@ elif "BERMUDAN" in OptionType:
     ExcerciseDates = input("Enter the day from start on which the option can be excercised. Example: 5-40-67-218.  ")
     decision = ExcerciseDates.split("-")
 elif "CHOOSER" in OptionType:
-    ExcerciseDates = input("Enter the period from start on which the option can be excercised. Example: 5.  ")
-    decision = ExcerciseDates
+    decision = input("Enter the period from start on which the option type can be chosen. Example: 5.  ")
 CallPut = input("Choose between: CALL, PUT ").upper()
 if ToolType == "BINOMIAL":
     periods = int(input("Enter the amount of periods to use in the simulation: "))
