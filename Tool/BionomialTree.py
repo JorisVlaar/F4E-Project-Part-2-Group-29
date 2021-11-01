@@ -63,5 +63,5 @@ def Chooser_tree(prices, periods, decision, q, R):
         prices = list.copy(values)
         values.clear()
         step -= 1
-    return prices[0]
+    return prices
 

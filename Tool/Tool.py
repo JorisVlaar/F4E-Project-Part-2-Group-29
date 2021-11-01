@@ -22,6 +22,7 @@ elif "BERMUDAN" in OptionType:
     ExcerciseDates = input("Enter the day from start on which the option can be excercised. Example: 5-40-67-218.  ")
     split = ExcerciseDates.split("-")
     decision = [int(i) for i in split]
+    print(decision)
 elif "CHOOSER" in OptionType:
     decision = int(input("Enter the period from start on which the option type can be chosen. Example: 5.  "))
 
@@ -35,7 +36,7 @@ if "BINOMIAL" in ToolType:
 elif "MONTE" and "CARLO" in ToolType:
     MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
 elif "BOTH" in ToolType:
-    periods = int(input("Enter the amount of periods to use in the binomial simulation(advised to keep below 1000): "))
+    periods = int(input("Enter the number of periods to use in the binomial simulation(advised to keep below 1000): "))
     print("Binomial: ", BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier))
     MC.monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown,  decision)
 
