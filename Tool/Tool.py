@@ -11,11 +11,12 @@ PStock = 38
 PExercise = 38
 volatility = 0.4
 maturity = 365 / 365
+periods = 20
 periodLength = 18.25 / 365
 interest = 0.1
 
 # computed values:
-periods = int(maturity / periodLength)
+periodLength = maturity / periods
 u = math.exp(volatility * math.sqrt(periodLength))
 d = 1 / u
 R = math.exp(interest * periodLength)
