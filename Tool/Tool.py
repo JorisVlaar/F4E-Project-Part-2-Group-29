@@ -11,10 +11,7 @@ K = int(input("Enter strike price: "))
 r = float(input("Enter the annual interest rate as a decimal: "))
 v = float(input("Enter the volatility as a decimal: "))
 TTM = float(input("Enter the Time to Maturity in years: "))
-<<<<<<< HEAD
 
-=======
->>>>>>> 9cf2f3dbda5426e7cb127d86518f813fcca11f0d
 OptionType = input("Enter the option type (choose from EU,US,ASIAN,BERMUDAN,CHOOSER, LOOKBACK, BARRIER): ").upper()
 if "BARRIER" in OptionType:
     Barrier = int(input("Enter the Barrier level: "))
@@ -29,8 +26,6 @@ elif "CHOOSER" in OptionType:
 CallPut = input("Choose between: CALL, PUT ").upper()
 if ToolType == "BINOMIAL":
     periods = int(input("Enter the amount of periods to use in the simulation:"))
-    OptionPrice = BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier)
+    BT.DOBinomial(OptionType, CallPut, P0, K, v, TTM, periods, r, decision, decision, UpDown, InOut, Barrier)
 elif ToolType == "MONTE CARLO":
-    OptionPrice = MC.monteCarloTool()
 
-print(OptionPrice)
