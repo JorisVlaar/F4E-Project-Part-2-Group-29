@@ -22,7 +22,6 @@ elif "BERMUDAN" in OptionType:
     ExcerciseDates = input("Enter the day from start on which the option can be excercised. Example: 5-40-67-218.  ")
     split = ExcerciseDates.split("-")
     decision = [int(i) for i in split]
-    print(decision)
 elif "CHOOSER" in OptionType:
     decision = int(input("Enter the period from start on which the option type can be chosen. Example: 5.  "))
 
