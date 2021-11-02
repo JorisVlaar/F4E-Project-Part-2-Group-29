@@ -62,21 +62,19 @@ def monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown
             payoffs = np.maximum(avg_ - paths[-1], 0)
 
     elif "BERMUDAN" in OptionType:
-
+        global decision
+        decision = np.append(np.array(decision)-1, 364)
         PotentialPayoffs = np.empty((len(decision), N))
         cnt = 0
-        decision = np.array(decision) - 1
-        if CallPut == "CALL":
+        if CallPut == "Call":
             for period in decision:
-                PotentialPayoffs[cnt] = np.maximum(
-                    (paths[period]-K)*np.power(1+r, -dt * (period+1)), 0)
+                PotentialPayoffs[cnt] = np.maximum((paths[period]-K)*np.power(1+r, -dt * (period+1)), 0)
                 cnt += 1
-        elif CallPut == "PUT":
+        elif CallPut == "Put":
             for period in decision:
-                PotentialPayoffs[cnt] = np.maximum(
-                    (K - paths[period]) * np.power(1+r, -dt * (period+1)), 0)
+                PotentialPayoffs[cnt] = np.maximum((K - paths[period]) * np.power(1+r, -dt * (period+1)), 0)
                 cnt += 1
-        payoffs = np.maximum(np.amax(PotentialPayoffs, axis=0), 0)
+        payoffs = np.amax(PotentialPayoffs, axis=0)
     elif "CHOOSER" in OptionType:
         ValueIfPut = np.maximum(K-paths[decision-1], 0)
         ValueIfCall = np.maximum(paths[decision-1]-K, 0)
