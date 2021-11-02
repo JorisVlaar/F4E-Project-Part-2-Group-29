@@ -25,11 +25,11 @@ if "BARRIER" in OptionType:
     InOut = input("Enter the barrier type (choose from IN, OUT): ").upper()
     UpDown = input("Enter the barrier type (choose from UP, DOWN): ").upper()
 elif "BERMUDAN" in OptionType:
-    ExcerciseDates = input("Enter the day from start on which the option can be excercised. Example: 5-40-67-218.  ")
+    ExcerciseDates = input("Enter the period from start on which the option can be excercised. Example: 5-40-67-218. (period should be lower than 365) ")
     split = ExcerciseDates.split("-")
     decision = [int(i) for i in split]
 elif "CHOOSER" in OptionType:
-    decision = int(input("Enter the period from start on which the option type can be chosen. Example: 5.  "))
+    decision = int(input("Enter the period from start on which the option type can be chosen. Example: 5. (should be lower than 365) "))
 
 if not "CHOOSER" in OptionType:
     CallPut = input("Choose between: CALL, PUT ").upper()
