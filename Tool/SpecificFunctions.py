@@ -19,21 +19,59 @@ def value_chooser_before(pricesCall, pricesPut, periods, decision, q, R):
             values.append(valuesIFPut[i])
     return values
 
+#lookback functions
 
-def find_lookBackCall_exercise_price(prices, periods):
-    PExercise = 0
-    for i in range(len(prices) - periods - 1):
-        if i == 0:
-            PExercise = prices[i]
-        elif prices[i] < PExercise:
-            PExercise = prices[i]
-    return PExercise
+def find_Lookback_exercise_price_Call(prices, periods):
+    index = len(prices) - (2 * periods) - 1
+    indices = []
+    for i in range(len(prices) - periods - 1, len(prices)):
+        indices.append(possible_Call(periods, index, i))
+    indices[len(indices) - 1] = indices[len(indices) - 2]
+    return indices
 
-def find_lookBackPut_exercise_price(prices, periods):
-    PExercise = 0
-    for i in range(len(prices) - periods - 1):
-        if i == 0:
-            PExercise = prices[i]
-        elif prices[i] > PExercise:
-            PExercise = prices[i]
-    return PExercise
+def find_values_Lookback_Call(prices, allprices, exerciseIndex):
+    print(prices)
+    for i in range(len(prices)):
+        print(exerciseIndex[i])
+        print(allprices[exerciseIndex[i]])
+        if prices[i] > allprices[exerciseIndex[i]]:
+            prices[i] = prices[i] - allprices[exerciseIndex[i]]
+        else:
+            prices[i] = 0
+    return prices
+
+def possible_Call(period, index, position):
+    nextPeriod = period - 1
+    if position - period == index + nextPeriod + 1:
+        return position
+    position = position - period
+    index -= nextPeriod
+    return possible_Call(nextPeriod, index, position)
+
+
+
+def find_values_Lookback_Put(prices, allprices, exerciseIndex):
+    for i in range(len(prices)):
+        if prices[i] < allprices[exerciseIndex[i]]:
+            prices[i] = allprices[exerciseIndex[i]] - prices[i]
+        else:
+            prices[i] = 0
+    return prices
+
+
+def find_exercise_price_Lookback_Put(prices, periods):
+    index = len(prices) - (2 * periods) - 1
+    indices = []
+    for i in range(len(prices) - periods - 1, len(prices)):
+        indices.append(possible_Put(periods, index, i))
+    indices[0] = indices[1]
+    return indices
+
+
+def possible_Put(period, index, position):
+    nextPeriod = period - 1
+    if position - period == index:
+        return position
+    position = position - period - 1
+    index -= nextPeriod
+    return possible_Put(nextPeriod, index, position)

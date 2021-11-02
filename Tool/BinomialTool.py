@@ -74,11 +74,11 @@ def DOBinomial(OptionType, CallPut, PStock, PExercise, volatility, maturity, per
     elif OptionType == "LOOKBACK":
         StockPrices = FPF.find_all_prices(PStock, u, d, periods)
         if CallPut == "CALL":
-            PExercise = F.find_lookBackCall_exercise_price(StockPrices, periods)
-            MaturityValues = FV.find_values_call(StockPrices, PExercise)
+            PExercise = F.find_Lookback_exercise_price_Call(StockPrices, periods)
+            MaturityValues = F.find_values_Lookback_Call(FPF.find_final_prices(PStock, u, d, periods), list.copy(StockPrices), PExercise)
         elif CallPut == "PUT":
-            PExercise = F.find_lookBackPut_exercise_price(StockPrices, periods)
-            MaturityValues = FV.find_values_put(StockPrices, PExercise)
+            PExercise = F.find_exercise_price_Lookback_Put(StockPrices, periods)
+            MaturityValues = F.find_values_Lookback_Put(FPF.find_final_prices(PStock, u, d, periods), list.copy(StockPrices), PExercise)
         OptionPrice = BT.basic_tree(MaturityValues, periods, q, R)
     elif OptionType == "BARRIER":
         OptionPrice = B.binomial_tree_barrier(PExercise, maturity, PStock, interest, periods, Barrier, volatility, CallPut, UpDown)
