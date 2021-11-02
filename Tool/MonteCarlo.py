@@ -62,7 +62,6 @@ def monteCarloTool(P0, K, r, v, TTM, Barrier, OptionType, CallPut, InOut, UpDown
             payoffs = np.maximum(avg_ - paths[-1], 0)
 
     elif "BERMUDAN" in OptionType:
-        global decision
         decision = np.append(np.array(decision)-1, 364)
         PotentialPayoffs = np.empty((len(decision), N))
         cnt = 0
